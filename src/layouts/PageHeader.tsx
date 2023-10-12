@@ -2,10 +2,17 @@ import { ArrowLeft, Bell, Menu, Mic, Search, Upload, User } from "lucide-react";
 import Button from "../components/Button";
 import { useState } from "react";
 
+/**
+ * Renders the page header component.
+ *
+ * @returns The page header component.
+ */
 function PageHeader() {
   const [showFullWidthSearch, setShowFullWidthSearch] = useState(false);
+
   return (
     <div className="flex gap-10 lg:gap-20 justify-between pt-2 mb-6 mx-4">
+      {/* Left section */}
       <div
         className={`gap-4 items-center flex-shrink-0 ${
           showFullWidthSearch ? "hidden" : "flex"
@@ -18,11 +25,14 @@ function PageHeader() {
           <img src={"/myTybe.svg"} alt="logo" className="h-6" />
         </a>
       </div>
+
+      {/* Search form */}
       <form
         className={`gap-4 flex-grow justify-center ${
           showFullWidthSearch ? "flex" : "md:flex hidden"
         }`}
       >
+        {/* Arrow left button */}
         {showFullWidthSearch && (
           <Button
             size="icon"
@@ -34,6 +44,8 @@ function PageHeader() {
             <ArrowLeft />
           </Button>
         )}
+
+        {/* Search input */}
         <div className="flex flex-grow max-w-[600px]">
           <input
             type="search"
@@ -45,15 +57,19 @@ function PageHeader() {
           </Button>
         </div>
 
+        {/* Mic button */}
         <Button size="icon" className="flex-shrink-0" type="button">
           <Mic />
         </Button>
       </form>
+
+      {/* Right section */}
       <div
         className={`flex-shrink-0 md:gap-2 ${
           showFullWidthSearch ? "hidden" : "flex"
         }`}
       >
+        {/* Full width search button */}
         <Button
           onClick={() => setShowFullWidthSearch(true)}
           size="icon"
@@ -62,15 +78,23 @@ function PageHeader() {
         >
           <Search />
         </Button>
+
+        {/* Mic button */}
         <Button size="icon" variant="ghost" className="md:hidden">
           <Mic />
         </Button>
+
+        {/* Upload button */}
         <Button size="icon" variant="ghost">
           <Upload />
         </Button>
+
+        {/* Bell button */}
         <Button size="icon" variant="ghost">
           <Bell />
         </Button>
+
+        {/* User button */}
         <Button size="icon" variant="ghost">
           <User />
         </Button>
