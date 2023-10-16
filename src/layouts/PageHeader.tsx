@@ -1,6 +1,7 @@
 import { ArrowLeft, Bell, Menu, Mic, Search, Upload, User } from "lucide-react";
 import Button from "../components/Button";
 import { useState } from "react";
+import { useSidebar } from "../context/SidebarContext";
 
 /**
  * Renders the page header component.
@@ -12,21 +13,8 @@ function PageHeader() {
 
   return (
     <div className="flex gap-10 lg:gap-20 justify-between pt-2 mb-6 mx-4">
-      {/* Left section */}
-      <div
-        className={`gap-4 items-center flex-shrink-0 ${
-          showFullWidthSearch ? "hidden" : "flex"
-        }`}
-      >
-        <Button>
-          <Menu />
-        </Button>
-        <a href="/">
-          <img src={"/myTybe.svg"} alt="logo" className="h-6" />
-        </a>
-      </div>
-
       {/* Search form */}
+      <PageHeaderFirtsSection hidden={showFullWidthSearch} />
       <form
         className={`gap-4 flex-grow justify-center ${
           showFullWidthSearch ? "flex" : "md:flex hidden"
@@ -103,3 +91,27 @@ function PageHeader() {
   );
 }
 export default PageHeader;
+
+type PageHeaderFirtsSectionProps = {
+  hidden?: boolean;
+};
+
+export function PageHeaderFirtsSection({
+  hidden = false,
+}: PageHeaderFirtsSectionProps) {
+  const { toggle } = useSidebar();
+  return (
+    <div
+      className={`gap-4 items-center flex-shrink-0 ${
+        hidden ? "hidden" : "flex"
+      }`}
+    >
+      <Button variant="ghost" size="icon" onClick={toggle}>
+        <Menu />
+      </Button>
+      <a href="/">
+        <img src={"/myTybe.svg"} alt="logo" className="h-6" />
+      </a>
+    </div>
+  );
+}

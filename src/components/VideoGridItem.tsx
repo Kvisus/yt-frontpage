@@ -21,7 +21,19 @@ const VIEW_FORMATTER = Intl.NumberFormat(undefined, {
   notation: "compact",
 });
 
-function VideoGridItem({
+/**
+ * Renders a single video grid item.
+ *
+ * @param id - The ID of the video.
+ * @param title - The title of the video.
+ * @param channel - The channel information.
+ * @param views - The number of views.
+ * @param postedAt - The time when the video was posted.
+ * @param duration - The duration of the video.
+ * @param thumbnailUrl - The URL of the video thumbnail.
+ * @param videoUrl - The URL of the video.
+ */
+export default function VideoGridItem({
   id,
   title,
   channel,
@@ -51,7 +63,9 @@ function VideoGridItem({
       onMouseEnter={() => setIsVideoPlaying(true)}
       onMouseLeave={() => setIsVideoPlaying(false)}
     >
+      {/* Video Link */}
       <a href={`/watch?v=${id}`} className="relative aspect-video">
+        {/* Video Thumbnail */}
         <img
           src={thumbnailUrl}
           className={`block w-full h-full object-cover rounded-xl ${
@@ -59,12 +73,14 @@ function VideoGridItem({
           } transition-[border-radius] duration-200`}
           alt=""
         />
+        {/* Video Duration */}
         <div
           className="absolute bottom-1 right-1 bg-secondary-darker
           text-secondary text-sm px-0.5 rounded"
         >
           {formatDuration(duration)}
         </div>
+        {/* Video */}
         <video
           ref={videoRef}
           muted
@@ -74,7 +90,9 @@ function VideoGridItem({
             ${isVideoPlaying ? "opacity-100" : "opacity-0"} delay-200`}
         />
       </a>
+      {/* Channel Info */}
       <div className="flex gap-2">
+        {/* Channel Profile */}
         <a href={`/@${channel.id}`} className="flex-shrink-0">
           <img
             src={channel.profileUrl}
@@ -83,15 +101,15 @@ function VideoGridItem({
           />
         </a>
         <div className="flex flex-col">
-          {/* title */}
+          {/* Video Title */}
           <a href={`/watch?v=${id}`} className="font-bold">
             {title}
           </a>
-          {/* channel name */}
+          {/* Channel Name */}
           <a href={`/@${channel.id}}`} className="text-secondary-text text-sm">
             {channel.name}
           </a>
-          {/* view count */}
+          {/* View Count */}
           <div className="text-secondary-text text-sm">
             {VIEW_FORMATTER.format(views)} views • {formatTimeAgo(postedAt)}
           </div>
@@ -100,4 +118,3 @@ function VideoGridItem({
     </div>
   );
 }
-export default VideoGridItem;

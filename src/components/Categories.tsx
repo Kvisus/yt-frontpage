@@ -10,26 +10,39 @@ type CategoryProps = {
 
 const TRANSLATE_AMOUNT = 200;
 
+/**
+ * Renders a category selection component.
+ *
+ * @param categories - An array of category names.
+ * @param selectedCategory - The selected category.
+ * @param onSelect - Callback function when a category is selected.
+ */
 function Categories({ categories, selectedCategory, onSelect }: CategoryProps) {
+  // State variables
   const [isLeftVisible, setIsLeftVisible] = useState(false);
   const [isRightVisible, setIsRightVisible] = useState(false);
   const [translate, setTranslate] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (containerRef.current === null) return;
+    // Update visibility of left and right arrows
+    const updateArrowVisibility = () => {
+      if (containerRef.current === null) return;
 
-    const observer = new ResizeObserver((entries) => {
-      // const container = containerRef.current;
-      const container = entries[0]?.target;
-
-      if (container == null) return;
+      const container = containerRef.current;
       setIsLeftVisible(translate > 0);
       setIsRightVisible(
         translate + container.clientWidth < container.scrollWidth
       );
-    });
-    observer.observe(containerRef.current);
+    };
+
+    // Observe resize changes
+    const observer = new ResizeObserver(updateArrowVisibility);
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    // Cleanup observer on unmount
     return () => {
       observer.disconnect();
     };
@@ -37,6 +50,7 @@ function Categories({ categories, selectedCategory, onSelect }: CategoryProps) {
 
   return (
     <div className="overflow-x-hidden relative" ref={containerRef}>
+      {/* Category buttons */}
       <div
         className="flex whitespace-nowrap gap-3 
         transition-transform w-[max-content]"
@@ -54,7 +68,8 @@ function Categories({ categories, selectedCategory, onSelect }: CategoryProps) {
           </Button>
         ))}
       </div>
-      {/* arrow on left side */}
+
+      {/* Arrow on the left side */}
       {isLeftVisible && (
         <div
           className="absolute left-0 top-1/2 -translate-y-1/2 bg-gradient-to-r from-white from-50%
@@ -76,7 +91,8 @@ function Categories({ categories, selectedCategory, onSelect }: CategoryProps) {
           </Button>
         </div>
       )}
-      {/* arrow on right side */}
+
+      {/* Arrow on the right side */}
       {isRightVisible && (
         <div
           className="absolute right-0 top-1/2 -translate-y-1/2 bg-gradient-to-l from-white from-50%
